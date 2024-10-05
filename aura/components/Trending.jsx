@@ -4,6 +4,8 @@ import * as Animatable from 'react-native-animatable';
 import { useState } from 'react';
 import { icons } from '../constants';
 
+import {Video,ResizeMode} from 'expo-av'
+
 
 const zoomIn={
   0:{
@@ -29,12 +31,23 @@ const TrendingItem = ({activeItem,item})=>{
   return(
     <Animatable.View
       className="mr-5"
-      animation={activeItem===item.$id ? zoomIn : zoomOut}
-      duration={500}
+      animation={activeItem === item.$id ? zoomIn : zoomOut}
+      duration={400}
     >
       {play?
     (
-      <Text className="text-white">playing</Text>
+      <Video
+        source={{uri: item.video}}
+        className="w-52 h-72 rounded-[35px] mt-3 bg-white/10"
+        resizeMode={ResizeMode.CONTAIN}
+        useNativeControls
+        shouldPlay
+        onPlaybackStatusUpdate={(status)=>{
+          if(status.didJustFinish){
+            setPlay(false);
+          }
+        }}
+      />
     )  :
     (
       <TouchableOpacity className="relative justify-center items-center" activeOpacity={0.7} 
@@ -67,12 +80,13 @@ const Trending = ({posts}) => {
   const [activeItem, setActiveItem] = useState(posts[1]);
 
   const viewableItemsChanged=({viewableItems})=>{
-    if(viewableItems.lenght > 0){
+    // animation wasn't working so i removed the logic to compare the length
+    if(viewableItems){
       setActiveItem(viewableItems[0].key)
      
       
     }
-    console.log(viewableItems);
+   
   }
 
   return (
@@ -87,7 +101,7 @@ const Trending = ({posts}) => {
         viewabilityConfig={{
           itemVisiblePercentThreshold:70
         }}
-        contentOffset={{x:120}}
+        contentOffset={{x:170}}
         horizontal 
     />
   )

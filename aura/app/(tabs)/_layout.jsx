@@ -85,7 +85,7 @@ const TabsLayout = () => {
             }}   
             />
             {/* bookmark */}
-            <Tabs.Screen 
+            {/* <Tabs.Screen 
             name='bookmark'
             options={{
                 title:"Bookmark",
@@ -99,7 +99,7 @@ const TabsLayout = () => {
                     />
                 )
             }}   
-            />
+            /> */}
         </Tabs>
    </>
   )
@@ -107,4 +107,3 @@ const TabsLayout = () => {
 
 export default TabsLayout
 
-const styles = StyleSheet.create({})
